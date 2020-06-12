@@ -8,8 +8,7 @@ public class PlayerController : MonoBehaviour
     public GameObject tapToDriveText;
     public Animator animator;
     [FormerlySerializedAs("MovementSpeed")] public float force = 6;
-
-
+    
     private Gas _gas;
     private Vector3 _carStartPos;
     private Rigidbody2D _rigidbody2D;
@@ -21,14 +20,7 @@ public class PlayerController : MonoBehaviour
         _carStartPos = transform.position;
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
-    // Update is called once per frame
-    public void Update()
-    {
-        animator.SetFloat(Speed,  _rigidbody2D.velocity.magnitude);
-        
-    }
-
+    
     private void OnMouseDown()
     {
         if (_rigidbody2D.velocity.magnitude < 0.01 && _gas.ConsumeGas())
@@ -43,6 +35,7 @@ public class PlayerController : MonoBehaviour
       {
           transform.position = _carStartPos;
       }
+      animator.SetFloat(Speed,  _rigidbody2D.velocity.magnitude);
     }
 
     private void Drive()
