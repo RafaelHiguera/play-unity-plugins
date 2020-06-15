@@ -1,33 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StoreController : MonoBehaviour
 {
     public GameObject tab;
     public GameObject gasPage;
-
     public GameObject coinPage;
+    public Text coinsCount;
 
-    private GameObject[] tabs;
-
-    private int tabsCount;
+    private GameObject[] _tabs;
+    private int _tabsCount;
+    
     // Start is called before the first frame update
     void Start()
     {
-        tabsCount = tab.transform.childCount;
-        tabs = new GameObject[tabsCount];
-        for (int i = 0; i < tabsCount; i++)
+        _tabsCount = tab.transform.childCount;
+        _tabs = new GameObject[_tabsCount];
+        for (int i = 0; i < _tabsCount; i++)
         {
-            tabs[i] = tab.transform.GetChild(i).gameObject;
+            _tabs[i] = tab.transform.GetChild(i).gameObject;
         }
-
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        coinsCount.text = PlayerPrefs.GetInt("coins", 20).ToString();
     }
 
     public void EnterGasPage()
@@ -46,18 +44,29 @@ public class StoreController : MonoBehaviour
 
     void SetTab(int targetTagIndex)
     {
-        for (int i = 0; i < tabsCount; i++)
+        for (int i = 0; i < _tabsCount; i++)
         {
             if (i == targetTagIndex)
             {
-                tabs[i].transform.GetChild(0).gameObject.SetActive(false);
-                tabs[i].transform.GetChild(1).gameObject.SetActive(true);
+                _tabs[i].transform.GetChild(0).gameObject.SetActive(false);
+                _tabs[i].transform.GetChild(1).gameObject.SetActive(true);
             }
             else
             {
-                tabs[i].transform.GetChild(0).gameObject.SetActive(true);
-                tabs[i].transform.GetChild(1).gameObject.SetActive(false);
+                _tabs[i].transform.GetChild(0).gameObject.SetActive(true);
+                _tabs[i].transform.GetChild(1).gameObject.SetActive(false);
             }
         }
+    }
+
+    // update coins when enter store
+    private void OnEnable()
+    {
+        SetCoins();
+    }
+
+    public void SetCoins()
+    {
+        coinsCount.text = PlayerPrefs.GetInt("coins", 20).ToString();
     }
 }
