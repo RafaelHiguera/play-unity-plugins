@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject garagePageCanvas;
     public Text coinsCount;
     public Car sedan;
-    
+
     private string _filename = "data.json";
     private string _dataPath;
     private GameData _gameData;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        Debug.Log(SecurityController.registerUserDevice());
         PlayerPrefs.DeleteAll();
         // reset the coins when start the game
         PlayerPrefs.SetInt("coins", 20);
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(_dataPath);
         LoadData();
     }
-    
+
     // set the coins count at the play page
     public void SetCoins()
     {
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
     private void PrintCarJson()
     {
         sedan = new Car("sedan", 500, 0, false, true);
-       
+
         print(JsonUtility.ToJson(sedan));
     }
 
@@ -76,10 +77,10 @@ public class GameManager : MonoBehaviour
             // if playerpref has car name key, the user owned the car
             car.owned = PlayerPrefs.HasKey(car.carName);
             Debug.Log(car.carName);
-        } 
+        }
         System.IO.File.WriteAllText(_dataPath, JsonUtility.ToJson(_gameData, true));
     }
-    
+
     // load game data
     private void LoadData()
     {
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
                 _gameData.cars.Add(new Car("carKart", 1000, 0, true, false));
                 SaveData();
             }
-            
+
             // set car ownership into player pref
             foreach (var car in _gameData.cars)
             {
@@ -111,7 +112,7 @@ public class GameManager : MonoBehaviour
                 }
                 Debug.Log(car.carName);
             }
-            
+
         }
         catch (System.Exception ex)
         {
